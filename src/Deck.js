@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import { View, 
 		Animated,
 		PanResponder,
-		Dimensions
+		Dimensions,
+		LayoutAnimation,
+		UIManager
 		} from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -60,6 +62,10 @@ class Deck extends Component{
 		        toValue:{x:0, y:0}
 	         }).start();
      }
+    componentWillUpdate(){
+    	UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true)
+    	LayoutAnimation.spring();
+    }
 	getCardStyle(){
 
 		// Interpolation 
@@ -98,11 +104,11 @@ class Deck extends Component{
 			}
 
 			return (
-				<Animated.View key={item.id} style={styles.cardStyle} >
+				<Animated.View key={item.id}  >
 				{this.props.renderCard(item)}
 			</Animated.View>
 		);
-	}).reverse();
+	})
 	}
 	render(){
 		return (
@@ -115,7 +121,6 @@ class Deck extends Component{
 }
 const styles = {
 	cardStyle:{
-		position: 'absolute',
 		width: SCREEN_WIDTH
 	}
 }
